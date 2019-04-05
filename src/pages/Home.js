@@ -14,6 +14,7 @@ class App extends Component {
     };
 
     this.SaveOrCancleClickHandler = this.SaveOrCancleClickHandler.bind(this);
+    this.makeScheduleClickHandler = this.makeScheduleClickHandler.bind(this);
   }
 
   componentDidMount() {
@@ -42,7 +43,12 @@ class App extends Component {
     }
   }
 
-  makeScheduleClickHandler() {}
+  makeScheduleClickHandler() {
+    this.props.history.push({
+      pathname: '/result',
+      state: { selectedSubjects: this.state.selectedSubjects }
+    });
+  }
 
   render() {
     const { subjects, selectedSubjects } = this.state;
