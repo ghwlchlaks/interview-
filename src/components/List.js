@@ -13,9 +13,9 @@ export default class List extends Component {
       const day = days[parseInt(value[0] / 8)];
       const time = value[0] % 8;
       return (
-        <Col key={index}>
-          {day}요일 : {time} - {time + 1} 교시
-        </Col>
+        <span key={index}>
+          {day} {time} - {time + 1} 교시, &nbsp;
+        </span>
       );
     });
   };
@@ -29,33 +29,34 @@ export default class List extends Component {
     const { no, title, grades, times, type } = this.props.value;
 
     return (
-      <Row>
-        <Col md="1" xs="12">
-          {no}
-        </Col>
-        <Col md="3" xs="12">
-          {title}
-        </Col>
-        <Col md="1" xs="12">
-          {grades}
-        </Col>
-        <Col md="3" xs="12">
-          {this.makeTimes(times)}
-        </Col>
-        <Col md="1" xs="12">
-          {this.makeType(type)}
-        </Col>
-        <Col md="1" xs="6">
-          <button type="button">
-            <FontAwesomeIcon icon="search" />
-          </button>
-        </Col>
-        <Col md="1" xs="6">
-          <button type="button">
-            <FontAwesomeIcon icon="check" />
-          </button>
-        </Col>
-      </Row>
+      <div>
+        <Row>
+          <Col md="2" xs="12" className="border">
+            {no}
+          </Col>
+          <Col md="3" xs="12" className="border">
+            {title}
+          </Col>
+          <Col md="2" xs="12" className="border">
+            {grades}
+          </Col>
+          <Col md="2" xs="12" className="border">
+            {this.makeType(type)}
+          </Col>
+          <Col md="3" xs="12" className="border">
+            <button type="button">
+              <FontAwesomeIcon icon="search" />
+            </button>
+            <button type="button">
+              <FontAwesomeIcon icon="check" />
+            </button>
+          </Col>
+        </Row>
+        <Row className="border">
+          <Col md="2">시간</Col>
+          <Col>{this.makeTimes(times)}</Col>
+        </Row>
+      </div>
     );
   }
 }
