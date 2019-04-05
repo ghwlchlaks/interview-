@@ -42,6 +42,8 @@ class App extends Component {
     }
   }
 
+  makeScheduleClickHandler() {}
+
   render() {
     const { subjects, selectedSubjects } = this.state;
     return (
@@ -69,6 +71,11 @@ class App extends Component {
               state={false}
             />
           </Col>
+        </Row>
+        <Row>
+          <button type="button" onClick={this.makeScheduleClickHandler}>
+            시간표 만들기
+          </button>
         </Row>
       </Container>
     );
