@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSearch,
+  faCheck,
+  faTimesCircle
+} from '@fortawesome/free-solid-svg-icons';
 import { Row, Col } from 'reactstrap';
 
-library.add(faSearch, faCheck);
+library.add(faSearch, faCheck, faTimesCircle);
 
 export default class List extends Component {
   makeTimes = function(times) {
@@ -47,8 +51,21 @@ export default class List extends Component {
             <button type="button">
               <FontAwesomeIcon icon="search" />
             </button>
-            <button type="button">
-              <FontAwesomeIcon icon="check" />
+            <button
+              type="button"
+              onClick={() =>
+                this.props.SaveOrCancleClickHandler(
+                  this.props.value,
+                  this.props.index,
+                  this.props.state
+                )
+              }
+            >
+              {this.props.state ? (
+                <FontAwesomeIcon icon="check" />
+              ) : (
+                <FontAwesomeIcon icon="times-circle" />
+              )}
             </button>
           </Col>
         </Row>
