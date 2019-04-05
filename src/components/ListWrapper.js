@@ -9,7 +9,15 @@ export default class ListWrapper extends Component {
     let makeList = '';
     if (subjects) {
       makeList = subjects.map((value, index) => {
-        return <List value={value} key={index} />;
+        return (
+          <List
+            value={value}
+            key={index}
+            index={index}
+            SaveOrCancleClickHandler={this.props.SaveOrCancleClickHandler}
+            state={this.props.state}
+          />
+        );
       });
     }
     return (
