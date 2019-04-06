@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import ResultList from './ResultList';
-import { Row, Col, Table } from 'reactstrap';
+import {
+  Row,
+  Col,
+  Table,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
+} from 'reactstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -8,13 +16,24 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 library.add(faSearch);
 
 export default class ResultListWrapper extends Component {
-  makeTr(schedules, index) {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modal: false,
+      modalSchedule: []
+    };
+
+    this.detailClickHandler = this.detailClickHandler.bind(this);
+  }
+
+  makeTr(schedules, isModal) {
     let allData = [];
     for (let i = 0; i < 8; i++) {
       allData.push(
         <tr key={i}>
           <th scope="row">{i + 1}</th>
-          {this.makeTd(schedules, i)}
+          {this.makeTd(schedules, i, isModal)}
         </tr>
       );
     }
@@ -22,7 +41,7 @@ export default class ResultListWrapper extends Component {
     return allData;
   }
 
-  makeTd(schedules, i) {
+  makeTd(schedules, i, isModal) {
     let element = [];
     for (let j = 0; j < 5; j++) {
       let isExist = false;
@@ -57,7 +76,9 @@ export default class ResultListWrapper extends Component {
       });
 
       if (isExist) {
-        element.push(<ResultList key={j} schedule={schedule} />);
+        element.push(
+          <ResultList key={j} schedule={schedule} isModal={isModal} />
+        );
       } else {
         element.push(<td key={j} />);
       }
@@ -65,8 +86,11 @@ export default class ResultListWrapper extends Component {
     return element;
   }
 
-  detailClickHandler() {
-    console.log('detail click!');
+  detailClickHandler(schedule) {
+    this.setState({
+      modalSchedule: schedule,
+      modal: !this.state.modal
+    });
   }
 
   render() {
@@ -86,14 +110,12 @@ export default class ResultListWrapper extends Component {
                 <th>금</th>
               </tr>
             </thead>
-            <tbody id={index} ref={this.ref}>
-              {this.makeTr(value, index)}
-            </tbody>
+            <tbody id={index}>{this.makeTr(value, false)}</tbody>
           </Table>
           <div className="overlay">
             <a
               href="javascript:void(0)"
-              onClick={this.detailClickHandler}
+              onClick={() => this.detailClickHandler(value)}
               className="icon"
             >
               <FontAwesomeIcon icon="search" />
@@ -102,6 +124,34 @@ export default class ResultListWrapper extends Component {
         </Col>
       );
     });
-    return <Row>{makeSchedules}</Row>;
+    return (
+      <Row>
+        {makeSchedules}
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          className={this.props.className}
+          backdrop={true}
+        >
+          <ModalHeader toggle={this.toggle}>시간표</ModalHeader>
+          <ModalBody>
+            <Table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>월</th>
+                  <th>화</th>
+                  <th>수</th>
+                  <th>목</th>
+                  <th>금</th>
+                </tr>
+              </thead>
+              <tbody>{this.makeTr(this.state.modalSchedule, true)}</tbody>
+            </Table>
+          </ModalBody>
+          <ModalFooter />
+        </Modal>
+      </Row>
+    );
   }
 }

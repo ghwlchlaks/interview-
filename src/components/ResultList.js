@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 export default class ResultList extends Component {
   render() {
-    const schedule = this.props.schedule;
+    const { schedule, isModal } = this.props;
     const colorArr = [
       '#5e7e9b',
       '#8f784b',
@@ -20,11 +20,11 @@ export default class ResultList extends Component {
         backgroundColor: colorArr[schedule.no % 10]
       }
     };
-    // console.log(schedule);
-    // const makeSchedule = schedule.map((value, index) => {
-    //   return <div key={index} />;
-    // });
-    // return <div>{makeSchedule}</div>;
-    return <td style={styles.td} />;
+
+    if (isModal) {
+      return <td style={styles.td}>{schedule.title}</td>;
+    } else {
+      return <td style={styles.td} />;
+    }
   }
 }
