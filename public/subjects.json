@@ -6,7 +6,7 @@
       "grades": 3,
       "times": [[1, 2], [19, 20], [39, 40]],
       "description": "C언어 재밌게 배웁시다",
-      "books": "http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9788970507385&orderClick=LEA&Kc=",
+      "books": "img/C.png",
       "type": 0
     },
     {
@@ -15,7 +15,7 @@
       "grades": 2,
       "times": [[2, 3], [21, 22], [39, 40]],
       "description": "자바 시간입니다.",
-      "books": "http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791185578217&orderClick=LEB&Kc=",
+      "books": "img/Java.png",
       "type": 0
     },
     {
@@ -24,7 +24,7 @@
       "grades": 3,
       "times": [[4, 5], [11, 12], [39, 40]],
       "description": "자바스크립트",
-      "books": "http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791163030034&orderClick=LAH&Kc=",
+      "books": "img/JavaScript.png",
       "type": 0
     },
     {
@@ -33,7 +33,7 @@
       "grades": 2,
       "times": [[1, 2], [5, 6], [7, 8]],
       "description": "안드로이드 수업 입니다.",
-      "books": "http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791188612833&orderClick=LAH&Kc=",
+      "books": "img/Android.png",
       "type": 0
     },
     {
@@ -42,7 +42,7 @@
       "grades": 2,
       "times": [[1, 2], [9, 10], [17, 18]],
       "description": "유니티 게임 수업입니다.",
-      "books": "http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791162241516&orderClick=LAG&Kc=",
+      "books": "img/Unity.png",
       "type": 0
     },
     {
@@ -51,7 +51,7 @@
       "grades": 2,
       "times": [[1, 2], [5, 6], [7, 8]],
       "description": "빅데이터",
-      "books": "http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791185890333&orderClick=LAG&Kc=",
+      "books": "img/BigData.png",
       "type": 0
     },
     {
@@ -60,7 +60,7 @@
       "grades": 3,
       "times": [[26, 27], [37, 38], [39, 40]],
       "description": "돈과삶 교양 수업",
-      "books": "http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791187976028&orderClick=LAG&Kc=",
+      "books": "img/MoneyAndLife.png",
       "type": 1
     },
     {
@@ -69,7 +69,7 @@
       "grades": 2,
       "times": [[19, 20], [25, 26], [33, 34]],
       "description": "정보처리기사 실기 반",
-      "books": "http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791160506976&orderClick=LAH&Kc=",
+      "books": "img/Engineer.png",
       "type": 0
     },
     {
@@ -78,7 +78,7 @@
       "grades": 3,
       "times": [[7, 8], [13, 14], [15, 16]],
       "description": "교양 실용영어",
-      "books": "http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9788977358492&orderClick=LAH&Kc=",
+      "books": "img/English.png",
       "type": 1
     }
   ]

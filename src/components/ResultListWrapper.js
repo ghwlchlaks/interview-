@@ -21,10 +21,13 @@ export default class ResultListWrapper extends Component {
 
     this.state = {
       modal: false,
-      modalSchedule: []
+      modalSchedule: [],
+      classModal: false,
+      classSchedule: {}
     };
 
     this.detailClickHandler = this.detailClickHandler.bind(this);
+    this.classClickHandler = this.classClickHandler.bind(this);
   }
 
   makeTr(schedules, isModal) {
@@ -77,13 +80,25 @@ export default class ResultListWrapper extends Component {
 
       if (isExist) {
         element.push(
-          <ResultList key={j} schedule={schedule} isModal={isModal} />
+          <ResultList
+            key={j}
+            schedule={schedule}
+            isModal={isModal}
+            classClickHandler={this.classClickHandler}
+          />
         );
       } else {
         element.push(<td key={j} />);
       }
     }
     return element;
+  }
+
+  classClickHandler(schedule) {
+    this.setState({
+      classModal: true,
+      classSchedule: schedule
+    });
   }
 
   detailClickHandler(schedule) {
@@ -133,7 +148,7 @@ export default class ResultListWrapper extends Component {
           className={this.props.className}
           backdrop={true}
         >
-          <ModalHeader toggle={this.toggle}>시간표</ModalHeader>
+          <ModalHeader>시간표</ModalHeader>
           <ModalBody>
             <Table>
               <thead>
@@ -148,6 +163,24 @@ export default class ResultListWrapper extends Component {
               </thead>
               <tbody>{this.makeTr(this.state.modalSchedule, true)}</tbody>
             </Table>
+
+            <Modal isOpen={this.state.classModal}>
+              <ModalHeader>{this.state.classSchedule.title}</ModalHeader>
+              <ModalBody>
+                <Row>
+                  <Col>
+                    <img src={this.state.classSchedule.books} />
+                  </Col>
+                  <Col>
+                    <div>{this.state.classSchedule.no}</div>
+                    <div>{this.state.classSchedule.description}</div>
+                    <div>{this.state.classSchedule.grades}</div>
+                    <div>{this.state.classSchedule.type}</div>
+                  </Col>
+                </Row>
+              </ModalBody>
+              <ModalFooter />
+            </Modal>
           </ModalBody>
           <ModalFooter />
         </Modal>

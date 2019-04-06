@@ -22,7 +22,14 @@ export default class ResultList extends Component {
     };
 
     if (isModal) {
-      return <td style={styles.td}>{schedule.title}</td>;
+      return (
+        <td
+          onClick={() => this.props.classClickHandler(schedule)}
+          style={styles.td}
+        >
+          {schedule.title}
+        </td>
+      );
     } else {
       return <td style={styles.td} />;
     }
