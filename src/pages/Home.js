@@ -10,18 +10,21 @@ class App extends Component {
 
     this.state = {
       subjects: [],
-      selectedSubjects: []
+      selectedSubjects: [],
+      items: []
     };
 
     this.SaveOrCancleClickHandler = this.SaveOrCancleClickHandler.bind(this);
     this.makeScheduleClickHandler = this.makeScheduleClickHandler.bind(this);
+    this.searchChangeHandler = this.searchChangeHandler.bind(this);
   }
 
   componentDidMount() {
     axios.get('subjects.json').then(result => {
       if (result.status === 200) {
         this.setState({
-          subjects: result.data.subjects
+          subjects: result.data.subjects,
+          items: result.data.subjects
         });
       }
     });
@@ -29,16 +32,25 @@ class App extends Component {
 
   SaveOrCancleClickHandler(value, index, state) {
     if (state) {
-      this.state.subjects.splice(index, 1);
+      // this.state.subjects.splice(index, 1);
+      const deleteItem = this.state.items.splice(index, 1);
+      for (let i = 0; i < this.state.subjects.length; i++) {
+        if (deleteItem[0].no === this.state.subjects[i].no) {
+          this.state.subjects.splice(i, 1);
+          break;
+        }
+      }
       this.setState({
         subjects: this.state.subjects,
-        selectedSubjects: [...this.state.selectedSubjects, value]
+        selectedSubjects: [...this.state.selectedSubjects, value],
+        items: this.state.items
       });
     } else {
       this.state.selectedSubjects.splice(index, 1);
       this.setState({
         selectedSubjects: this.state.selectedSubjects,
-        subjects: [...this.state.subjects, value]
+        subjects: [...this.state.subjects, value],
+        items: [...this.state.items, value]
       });
     }
   }
@@ -50,8 +62,18 @@ class App extends Component {
     });
   }
 
+  searchChangeHandler(e) {
+    let subjects = this.state.subjects;
+    subjects = subjects.filter(function(item) {
+      return (
+        item.title.toLowerCase().search(e.target.value.toLowerCase()) !== -1
+      );
+    });
+    this.setState({ items: subjects });
+  }
+
   render() {
-    const { subjects, selectedSubjects } = this.state;
+    const { subjects, selectedSubjects, items } = this.state;
     return (
       <Container>
         <Row>
@@ -60,12 +82,13 @@ class App extends Component {
             name="title"
             id="title"
             placeholder="과목 이름을 적어주세요"
+            onChange={this.searchChangeHandler}
           />
         </Row>
         <Row>
           <Col xs="12" md="6">
             <ListWrapper
-              subjects={subjects}
+              subjects={items}
               SaveOrCancleClickHandler={this.SaveOrCancleClickHandler}
               state={true}
             />
