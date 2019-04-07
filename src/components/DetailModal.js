@@ -25,7 +25,7 @@ export default class DetailModal extends Component {
         <ModalBody>
           <Row>
             <Col>
-              <img src={books} />
+              <img alt="이미지가 없습니다." src={books} />
             </Col>
             <Col>
               <div>{no}</div>
