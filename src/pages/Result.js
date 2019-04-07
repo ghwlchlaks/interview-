@@ -10,7 +10,8 @@ export default class Result extends Component {
 
     this.state = {
       originSchedules: [],
-      schedules: []
+      schedules: [],
+      loading: true
     };
 
     this.typeChangeHandler = this.typeChangeHandler.bind(this);
@@ -39,7 +40,8 @@ export default class Result extends Component {
     this.recursive(subjects, [], [], 0, newArr);
     this.setState({
       originSchedules: newArr,
-      schedules: newArr
+      schedules: newArr,
+      loading: false
     });
   }
 
@@ -159,27 +161,33 @@ export default class Result extends Component {
           <Redirect to="/" />
         ) : (
           <div>
-            {!this.state.schedules.length > 0 ? (
-              <div> 결과가 없습니다.</div>
+            {this.state.loading ? (
+              'Loading ...'
             ) : (
               <div>
-                <Row>
-                  <Col md="2">
-                    <Input
-                      type="select"
-                      name="type"
-                      id="type"
-                      onChange={this.typeChangeHandler}
-                    >
-                      <option value={-1}>전체</option>
-                      <option value={0}>공강 있는 날</option>
-                      <option value={1}>오전 수업 X</option>
-                    </Input>
-                  </Col>
-                </Row>
-                <Row>
-                  <ResultListWrapper schedules={this.state.schedules} />
-                </Row>
+                {!this.state.schedules.length > 0 ? (
+                  <div> 결과가 없습니다.</div>
+                ) : (
+                  <div>
+                    <Row>
+                      <Col md="2">
+                        <Input
+                          type="select"
+                          name="type"
+                          id="type"
+                          onChange={this.typeChangeHandler}
+                        >
+                          <option value={-1}>전체</option>
+                          <option value={0}>공강 있는 날</option>
+                          <option value={1}>오전 수업 X</option>
+                        </Input>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <ResultListWrapper schedules={this.state.schedules} />
+                    </Row>
+                  </div>
+                )}
               </div>
             )}
           </div>
