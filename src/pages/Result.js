@@ -161,7 +161,7 @@ export default class Result extends Component {
           <Redirect to="/" />
         ) : (
           <div>
-            {!this.state.loading ? (
+            {this.state.loading ? (
               'Loading ...'
             ) : (
               <div>
