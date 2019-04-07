@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import './Result.css';
 import { Redirect } from 'react-router-dom';
 import ResultListWrapper from '../components/ResultListWrapper';
-import { Container } from 'reactstrap';
+import { Container, Row, Col, Input } from 'reactstrap';
 
 export default class Result extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      schedules: []
+      originSchedules: [],
+      schedules:[]
     };
+
+    this.typeChangeHandler = this.typeChangeHandler.bind(this)
   }
 
   componentDidMount() {
@@ -35,6 +38,7 @@ export default class Result extends Component {
 
     this.recursive(subjects, [], [], 0, newArr);
     this.setState({
+      originSchedules: newArr,
       schedules: newArr
     });
   }
@@ -106,6 +110,33 @@ export default class Result extends Component {
     }
   }
 
+  typeChangeHandler(e) {
+    let schedules = this.state.originSchedules;
+    const index = +e.target.value
+    
+   if (index === 0) {
+      schedules = schedules.filter((schedule) => {
+        let isExist = [true, true, true, true, true]
+        let count = 0
+        schedule.map((_class) => {
+          _class.enable_times.map((value) => {
+            isExist[ parseInt((value -1) / 8) ] = false
+          })
+        })
+
+        isExist.map((value) => {
+          if (value) count+=1;
+        })
+
+        return ( count > 0)
+      })
+    }
+
+    this.setState({
+      schedules: schedules
+    })
+  }
+
   render() {
     return (
       <Container>
@@ -116,7 +147,25 @@ export default class Result extends Component {
             {!this.state.schedules.length > 0 ? (
               <div> Loading...</div>
             ) : (
+              <div>
+              <Row>
+              <Col md="2">
+            <Input
+              type="select"
+              name="type"
+              id="type"
+              onChange={this.typeChangeHandler}
+            >
+              <option value={-1}>전체</option>
+              <option value={0}>공강 있는 날</option>
+              
+            </Input>
+          </Col>
+          </Row>
+          <Row>
               <ResultListWrapper schedules={this.state.schedules} />
+              </Row>
+              </div>
             )}
           </div>
         )}
