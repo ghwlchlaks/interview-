@@ -40,7 +40,8 @@ export default class Result extends Component {
     this.recursive(subjects, [], [], 0, newArr);
     this.setState({
       originSchedules: newArr,
-      schedules: newArr
+      schedules: newArr,
+      loading: false
     });
   }
 
