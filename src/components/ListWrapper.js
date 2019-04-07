@@ -37,7 +37,7 @@ export default class ListWrapper extends Component {
             타입
           </Col>
           <Col md="3" xs="12" className="border">
-            상세 / 등록
+            상세 / {this.props.state ? '등록' : '제거'}
           </Col>
         </Row>
 

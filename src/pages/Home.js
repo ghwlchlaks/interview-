@@ -22,7 +22,7 @@ class App extends Component {
     this.searchChangeHandler = this.searchChangeHandler.bind(this);
     this.typeChangeHandler = this.typeChangeHandler.bind(this);
     this.dayChangeHandler = this.dayChangeHandler.bind(this);
-    this.gradeChangeHandler = this.gradeChangeHandler.bind(this)
+    this.gradeChangeHandler = this.gradeChangeHandler.bind(this);
   }
 
   componentDidMount() {
@@ -37,8 +37,14 @@ class App extends Component {
   }
 
   SaveOrCancleClickHandler(value, index, state) {
+    const totalGrade = this.getTotalGrade();
+
+    if (totalGrade + value.grades > 21) {
+      alert('21학점을 초과하였습니다. 최대 21학점까지 선택 가능합니다.');
+      return;
+    }
+
     if (state) {
-      // this.state.subjects.splice(index, 1);
       const deleteItem = this.state.items.splice(index, 1);
       for (let i = 0; i < this.state.subjects.length; i++) {
         if (deleteItem[0].no === this.state.subjects[i].no) {
@@ -61,7 +67,23 @@ class App extends Component {
     }
   }
 
+  getTotalGrade() {
+    const selectedSubjects = this.state.selectedSubjects;
+    let totalGrade = 0;
+    selectedSubjects.map(selectedSubject => {
+      totalGrade += selectedSubject.grades;
+    });
+
+    return totalGrade;
+  }
+
   makeScheduleClickHandler() {
+    const totalGrade = this.getTotalGrade();
+
+    if (totalGrade < 18) {
+      alert('최소 18학점 이상을 선택하셔야합니다.');
+      return;
+    }
     this.props.history.push({
       pathname: '/result',
       state: { selectedSubjects: this.state.selectedSubjects }
@@ -69,81 +91,90 @@ class App extends Component {
   }
 
   searchChangeHandler(e) {
-    const title = e.target.value
-    this.setState({
-      title: title
-    }, () => {
-      this.filterfingHandler()
-    })
-
+    const title = e.target.value;
+    this.setState(
+      {
+        title: title
+      },
+      () => {
+        this.filterfingHandler();
+      }
+    );
   }
 
   typeChangeHandler(e) {
-    this.setState({
-      type: +e.target.value
-    },() =>{
-      this.filterfingHandler()
-  });
-    
+    this.setState(
+      {
+        type: +e.target.value
+      },
+      () => {
+        this.filterfingHandler();
+      }
+    );
   }
 
   filterfingHandler() {
-    const title = this.state.title
-    const type = this.state.type
+    const title = this.state.title;
+    const type = this.state.type;
     const day = this.state.day;
-    const grade = this.state.grade
+    const grade = this.state.grade;
 
-
-    let subjects  = this.state.subjects;
+    let subjects = this.state.subjects;
     subjects = subjects.filter(function(item) {
-
       let typeCondtion = item.type === type;
-      if (type === -1) typeCondtion = true
-      
-      let dayCondition = false
-      if (day === -1) {dayCondition = true}
-      else {
+      if (type === -1) typeCondtion = true;
+
+      let dayCondition = false;
+      if (day === -1) {
+        dayCondition = true;
+      } else {
         item.times.forEach(time => {
-          time.forEach(element => { 
-            if (parseInt((element -1 ) / 8)  === day ) {
-              dayCondition = true
+          time.forEach(element => {
+            if (parseInt((element - 1) / 8) === day) {
+              dayCondition = true;
               return;
             }
             if (dayCondition) return;
-          })
+          });
         });
       }
 
       let gradeCondition = item.grades === grade;
-      if (grade === -1) gradeCondition = true
+      if (grade === -1) gradeCondition = true;
 
       return (
         item.title.toLowerCase().search(title) !== -1 &&
         typeCondtion &&
         dayCondition &&
         gradeCondition
-      )
-    })
-    
+      );
+    });
+
     this.setState({
       items: subjects
-    })
-  }
-
-  dayChangeHandler(e) {
-    this.setState({
-      day: +e.target.value
-    }, () => {
-      this.filterfingHandler()
     });
   }
 
+  dayChangeHandler(e) {
+    this.setState(
+      {
+        day: +e.target.value
+      },
+      () => {
+        this.filterfingHandler();
+      }
+    );
+  }
+
   gradeChangeHandler(e) {
-    this.setState({
-      grade: +e.target.value
-    }, () => {
-      this.filterfingHandler()
-    })
+    this.setState(
+      {
+        grade: +e.target.value
+      },
+      () => {
+        this.filterfingHandler();
+      }
+    );
   }
 
   render() {
@@ -194,7 +225,7 @@ class App extends Component {
               id="grades"
               onChange={this.gradeChangeHandler}
             >
-             <option value={-1}>전체</option>
+              <option value={-1}>전체</option>
               <option value={3}>3</option>
               <option value={2}>2</option>
             </Input>
