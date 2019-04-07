@@ -7,10 +7,22 @@ import {
   faTimesCircle
 } from '@fortawesome/free-solid-svg-icons';
 import { Row, Col } from 'reactstrap';
+import DetailModal from './DetailModal';
 
 library.add(faSearch, faCheck, faTimesCircle);
 
 export default class List extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      classModal: false,
+      classSchedule: {}
+    };
+
+    this.detailClickHandler = this.detailClickHandler.bind(this);
+    this.cancelModalHandler = this.cancelModalHandler.bind(this);
+  }
   makeTimes = function(times) {
     const days = ['월', '화', '수', '목', '금'];
     return times.map((value, index) => {
@@ -28,6 +40,19 @@ export default class List extends Component {
     const types = ['전공', '교양'];
     return <span>{types[type]}</span>;
   };
+
+  detailClickHandler() {
+    this.setState({
+      classModal: true,
+      classSchedule: this.props.value
+    });
+  }
+
+  cancelModalHandler() {
+    this.setState({
+      classModal: false
+    });
+  }
 
   render() {
     const { no, title, grades, times, type } = this.props.value;
@@ -48,7 +73,7 @@ export default class List extends Component {
             {this.makeType(type)}
           </Col>
           <Col md="3" xs="12" className="border">
-            <button type="button">
+            <button type="button" onClick={this.detailClickHandler}>
               <FontAwesomeIcon icon="search" />
             </button>
             <button
@@ -73,6 +98,11 @@ export default class List extends Component {
           <Col md="2">시간</Col>
           <Col>{this.makeTimes(times)}</Col>
         </Row>
+        <DetailModal
+          classModal={this.state.classModal}
+          classSchedule={this.state.classSchedule}
+          cancelModalHandler={this.cancelModalHandler}
+        />
       </div>
     );
   }

@@ -12,6 +12,7 @@ import {
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import DetailModal from './DetailModal';
 
 library.add(faSearch);
 
@@ -28,6 +29,7 @@ export default class ResultListWrapper extends Component {
 
     this.detailClickHandler = this.detailClickHandler.bind(this);
     this.classClickHandler = this.classClickHandler.bind(this);
+    this.cancelModalHandler = this.cancelModalHandler.bind(this);
   }
 
   makeTr(schedules, isModal) {
@@ -108,6 +110,12 @@ export default class ResultListWrapper extends Component {
     });
   }
 
+  cancelModalHandler() {
+    this.setState({
+      classModal: false
+    });
+  }
+
   render() {
     const schedules = this.props.schedules;
 
@@ -144,7 +152,6 @@ export default class ResultListWrapper extends Component {
         {makeSchedules}
         <Modal
           isOpen={this.state.modal}
-          toggle={this.toggle}
           className={this.props.className}
           backdrop={true}
         >
@@ -163,26 +170,17 @@ export default class ResultListWrapper extends Component {
               </thead>
               <tbody>{this.makeTr(this.state.modalSchedule, true)}</tbody>
             </Table>
-
-            <Modal isOpen={this.state.classModal}>
-              <ModalHeader>{this.state.classSchedule.title}</ModalHeader>
-              <ModalBody>
-                <Row>
-                  <Col>
-                    <img src={this.state.classSchedule.books} />
-                  </Col>
-                  <Col>
-                    <div>{this.state.classSchedule.no}</div>
-                    <div>{this.state.classSchedule.description}</div>
-                    <div>{this.state.classSchedule.grades}</div>
-                    <div>{this.state.classSchedule.type}</div>
-                  </Col>
-                </Row>
-              </ModalBody>
-              <ModalFooter />
-            </Modal>
+            <DetailModal
+              classModal={this.state.classModal}
+              classSchedule={this.state.classSchedule}
+              cancelModalHandler={this.cancelModalHandler}
+            />
           </ModalBody>
-          <ModalFooter />
+          <ModalFooter>
+            <button type="button" onClick={() => this.detailClickHandler([])}>
+              닫기
+            </button>
+          </ModalFooter>
         </Modal>
       </Row>
     );
