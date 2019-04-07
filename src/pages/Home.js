@@ -11,12 +11,16 @@ class App extends Component {
     this.state = {
       subjects: [],
       selectedSubjects: [],
-      items: []
+      items: [],
+      type: -1,
+      day: -1
     };
 
     this.SaveOrCancleClickHandler = this.SaveOrCancleClickHandler.bind(this);
     this.makeScheduleClickHandler = this.makeScheduleClickHandler.bind(this);
     this.searchChangeHandler = this.searchChangeHandler.bind(this);
+    this.typeChangeHandler = this.typeChangeHandler.bind(this);
+    this.dayChangeHandler = this.dayChangeHandler.bind(this);
   }
 
   componentDidMount() {
@@ -72,18 +76,61 @@ class App extends Component {
     this.setState({ items: subjects });
   }
 
+  typeChangeHandler(e) {
+    const type = ['전공', '교양'];
+    this.setState({
+      type: type.indexOf(e.target.value)
+    });
+  }
+
+  dayChangeHandler(e) {
+    const day = ['월', '화', '수', '목', '금'];
+    this.setState({
+      day: day.indexOf(e.target.value)
+    });
+  }
+
   render() {
     const { subjects, selectedSubjects, items } = this.state;
     return (
       <Container>
         <Row>
-          <Input
-            type="text"
-            name="title"
-            id="title"
-            placeholder="과목 이름을 적어주세요"
-            onChange={this.searchChangeHandler}
-          />
+          <Col md="6">
+            <Input
+              type="text"
+              name="title"
+              id="title"
+              placeholder="과목 이름을 적어주세요"
+              onChange={this.searchChangeHandler}
+            />
+          </Col>
+          <Col md="3">
+            <Input
+              type="select"
+              name="type"
+              id="type"
+              onChange={this.typeChangeHandler}
+            >
+              <option>전체</option>
+              <option>전공</option>
+              <option>교양</option>
+            </Input>
+          </Col>
+          <Col md="3">
+            <Input
+              type="select"
+              name="day"
+              id="day"
+              onChange={this.dayChangeHandler}
+            >
+              <option>전체</option>
+              <option>월</option>
+              <option>화</option>
+              <option>수</option>
+              <option>목</option>
+              <option>금</option>
+            </Input>
+          </Col>
         </Row>
         <Row>
           <Col xs="12" md="6">
