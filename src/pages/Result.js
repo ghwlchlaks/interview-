@@ -49,7 +49,7 @@ export default class Result extends Component {
     const combinations = [];
     const picked = [];
     const used = [];
-    for (let item of arr) used.push(0);
+    for (let i = 0; i < arr.length; i++) used.push(0);
 
     function find(picked) {
       if (picked.length === m) {
@@ -120,13 +120,13 @@ export default class Result extends Component {
       schedules = schedules.filter(schedule => {
         let isExist = [true, true, true, true, true];
         let count = 0;
-        schedule.map(_class => {
-          _class.enable_times.map(value => {
+        schedule.forEach(_class => {
+          _class.enable_times.forEach(value => {
             isExist[parseInt((value - 1) / 8)] = false;
           });
         });
 
-        isExist.map(value => {
+        isExist.forEach(value => {
           if (value) count += 1;
         });
 
@@ -135,8 +135,8 @@ export default class Result extends Component {
     } else if (index === 1) {
       schedules = schedules.filter(schedule => {
         let isExist = true;
-        schedule.map(_class => {
-          _class.enable_times.map(value => {
+        schedule.forEach(_class => {
+          _class.enable_times.forEach(value => {
             if (value % 8 === 1 || value % 8 === 2 || value % 8 === 3) {
               isExist = false;
               return;

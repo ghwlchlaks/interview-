@@ -70,7 +70,7 @@ class App extends Component {
   getTotalGrade() {
     const selectedSubjects = this.state.selectedSubjects;
     let totalGrade = 0;
-    selectedSubjects.map(selectedSubject => {
+    selectedSubjects.forEach(selectedSubject => {
       totalGrade += selectedSubject.grades;
     });
 
@@ -178,7 +178,7 @@ class App extends Component {
   }
 
   render() {
-    const { subjects, selectedSubjects, items } = this.state;
+    const { selectedSubjects, items } = this.state;
     return (
       <Container>
         <Row>

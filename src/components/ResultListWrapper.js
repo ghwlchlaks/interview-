@@ -52,7 +52,7 @@ export default class ResultListWrapper extends Component {
       let isExist = false;
       let schedule;
 
-      schedules.map((value, index) => {
+      schedules.forEach(value => {
         let enable_times = value.enable_times;
 
         for (let q = 0; q < enable_times.length; q++) {
@@ -103,7 +103,7 @@ export default class ResultListWrapper extends Component {
     });
   }
 
-  detailClickHandler(schedule) {
+  detailClickHandler(schedule, e) {
     this.setState({
       modalSchedule: schedule,
       modal: !this.state.modal
@@ -136,13 +136,13 @@ export default class ResultListWrapper extends Component {
             <tbody id={index}>{this.makeTr(value, false)}</tbody>
           </Table>
           <div className="overlay">
-            <a
-              href="javascript:void(0)"
+            <div
+              // href=""
               onClick={() => this.detailClickHandler(value)}
               className="icon"
             >
               <FontAwesomeIcon icon="search" />
-            </a>
+            </div>
           </div>
         </Col>
       );
