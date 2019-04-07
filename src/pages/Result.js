@@ -10,10 +10,10 @@ export default class Result extends Component {
 
     this.state = {
       originSchedules: [],
-      schedules:[]
+      schedules: []
     };
 
-    this.typeChangeHandler = this.typeChangeHandler.bind(this)
+    this.typeChangeHandler = this.typeChangeHandler.bind(this);
   }
 
   componentDidMount() {
@@ -112,29 +112,44 @@ export default class Result extends Component {
 
   typeChangeHandler(e) {
     let schedules = this.state.originSchedules;
-    const index = +e.target.value
-    
-   if (index === 0) {
-      schedules = schedules.filter((schedule) => {
-        let isExist = [true, true, true, true, true]
-        let count = 0
-        schedule.map((_class) => {
-          _class.enable_times.map((value) => {
-            isExist[ parseInt((value -1) / 8) ] = false
-          })
-        })
+    const index = +e.target.value;
 
-        isExist.map((value) => {
-          if (value) count+=1;
-        })
+    if (index === 0) {
+      schedules = schedules.filter(schedule => {
+        let isExist = [true, true, true, true, true];
+        let count = 0;
+        schedule.map(_class => {
+          _class.enable_times.map(value => {
+            isExist[parseInt((value - 1) / 8)] = false;
+          });
+        });
 
-        return ( count > 0)
-      })
+        isExist.map(value => {
+          if (value) count += 1;
+        });
+
+        return count > 0;
+      });
+    } else if (index === 1) {
+      schedules = schedules.filter(schedule => {
+        let isExist = true;
+        schedule.map(_class => {
+          _class.enable_times.map(value => {
+            if (value % 8 === 1 || value % 8 === 2 || value % 8 === 3) {
+              isExist = false;
+              return;
+            }
+          });
+          if (!isExist) return;
+        });
+
+        return isExist;
+      });
     }
 
     this.setState({
       schedules: schedules
-    })
+    });
   }
 
   render() {
@@ -145,26 +160,26 @@ export default class Result extends Component {
         ) : (
           <div>
             {!this.state.schedules.length > 0 ? (
-              <div> Loading...</div>
+              <div> 결과가 없습니다.</div>
             ) : (
               <div>
-              <Row>
-              <Col md="2">
-            <Input
-              type="select"
-              name="type"
-              id="type"
-              onChange={this.typeChangeHandler}
-            >
-              <option value={-1}>전체</option>
-              <option value={0}>공강 있는 날</option>
-              
-            </Input>
-          </Col>
-          </Row>
-          <Row>
-              <ResultListWrapper schedules={this.state.schedules} />
-              </Row>
+                <Row>
+                  <Col md="2">
+                    <Input
+                      type="select"
+                      name="type"
+                      id="type"
+                      onChange={this.typeChangeHandler}
+                    >
+                      <option value={-1}>전체</option>
+                      <option value={0}>공강 있는 날</option>
+                      <option value={1}>오전 수업 X</option>
+                    </Input>
+                  </Col>
+                </Row>
+                <Row>
+                  <ResultListWrapper schedules={this.state.schedules} />
+                </Row>
               </div>
             )}
           </div>
