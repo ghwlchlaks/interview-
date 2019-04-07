@@ -13,7 +13,8 @@ class App extends Component {
       selectedSubjects: [],
       items: [],
       type: -1,
-      day: -1
+      day: -1,
+      grade: -1
     };
 
     this.SaveOrCancleClickHandler = this.SaveOrCancleClickHandler.bind(this);
@@ -21,6 +22,7 @@ class App extends Component {
     this.searchChangeHandler = this.searchChangeHandler.bind(this);
     this.typeChangeHandler = this.typeChangeHandler.bind(this);
     this.dayChangeHandler = this.dayChangeHandler.bind(this);
+    this.gradeChangeHandler = this.gradeChangeHandler.bind(this)
   }
 
   componentDidMount() {
@@ -67,27 +69,81 @@ class App extends Component {
   }
 
   searchChangeHandler(e) {
-    let subjects = this.state.subjects;
-    subjects = subjects.filter(function(item) {
-      return (
-        item.title.toLowerCase().search(e.target.value.toLowerCase()) !== -1
-      );
-    });
-    this.setState({ items: subjects });
+    const title = e.target.value
+    this.setState({
+      title: title
+    }, () => {
+      this.filterfingHandler()
+    })
+
   }
 
   typeChangeHandler(e) {
-    const type = ['전공', '교양'];
     this.setState({
-      type: type.indexOf(e.target.value)
-    });
+      type: +e.target.value
+    },() =>{
+      this.filterfingHandler()
+  });
+    
+  }
+
+  filterfingHandler() {
+    const title = this.state.title
+    const type = this.state.type
+    const day = this.state.day;
+    const grade = this.state.grade
+
+
+    let subjects  = this.state.subjects;
+    subjects = subjects.filter(function(item) {
+
+      let typeCondtion = item.type === type;
+      if (type === -1) typeCondtion = true
+      
+      let dayCondition = false
+      if (day === -1) {dayCondition = true}
+      else {
+        item.times.forEach(time => {
+          time.forEach(element => { 
+            if (parseInt((element -1 ) / 8)  === day ) {
+              dayCondition = true
+              return;
+            }
+            if (dayCondition) return;
+          })
+        });
+      }
+
+      let gradeCondition = item.grades === grade;
+      if (grade === -1) gradeCondition = true
+
+      return (
+        item.title.toLowerCase().search(title) !== -1 &&
+        typeCondtion &&
+        dayCondition &&
+        gradeCondition
+      )
+    })
+    
+    this.setState({
+      items: subjects
+    })
   }
 
   dayChangeHandler(e) {
-    const day = ['월', '화', '수', '목', '금'];
     this.setState({
-      day: day.indexOf(e.target.value)
+      day: +e.target.value
+    }, () => {
+      this.filterfingHandler()
     });
+  }
+
+  gradeChangeHandler(e) {
+    this.setState({
+      grade: +e.target.value
+    }, () => {
+      this.filterfingHandler()
+    })
   }
 
   render() {
@@ -104,31 +160,43 @@ class App extends Component {
               onChange={this.searchChangeHandler}
             />
           </Col>
-          <Col md="3">
+          <Col md="2">
             <Input
               type="select"
               name="type"
               id="type"
               onChange={this.typeChangeHandler}
             >
-              <option>전체</option>
-              <option>전공</option>
-              <option>교양</option>
+              <option value={-1}>전체</option>
+              <option value={0}>전공</option>
+              <option value={1}>교양</option>
             </Input>
           </Col>
-          <Col md="3">
+          <Col md="2">
             <Input
               type="select"
               name="day"
               id="day"
               onChange={this.dayChangeHandler}
             >
-              <option>전체</option>
-              <option>월</option>
-              <option>화</option>
-              <option>수</option>
-              <option>목</option>
-              <option>금</option>
+              <option value={-1}>전체</option>
+              <option value={0}>월</option>
+              <option value={1}>화</option>
+              <option value={2}>수</option>
+              <option value={3}>목</option>
+              <option value={4}>금</option>
+            </Input>
+          </Col>
+          <Col md="2">
+            <Input
+              type="select"
+              name="grades"
+              id="grades"
+              onChange={this.gradeChangeHandler}
+            >
+             <option value={-1}>전체</option>
+              <option value={3}>3</option>
+              <option value={2}>2</option>
             </Input>
           </Col>
         </Row>
