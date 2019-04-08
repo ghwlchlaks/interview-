@@ -18,6 +18,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import DetailModal from './DetailModal';
+import html2canvas from 'html2canvas';
 
 library.add(faSearch);
 
@@ -124,7 +125,7 @@ export default class ResultListWrapper extends Component {
     for (let i = (page - 1) * 4; i < page * 4; i++) {
       data.push(
         <Col md="3" key={i}>
-          <Table className="result">
+          <Table className="result" id={i}>
             <thead>
               <tr>
                 <th>#</th>
@@ -135,7 +136,7 @@ export default class ResultListWrapper extends Component {
                 <th>금</th>
               </tr>
             </thead>
-            <tbody id={i}>{this.makeTr(this.props.schedules[i], false)}</tbody>
+            <tbody>{this.makeTr(this.props.schedules[i], false)}</tbody>
           </Table>
           <div className="overlay">
             <div
@@ -149,6 +150,37 @@ export default class ResultListWrapper extends Component {
       );
     }
     return data;
+  }
+
+  saveTable(e) {
+    const modalBody = e.target.parentNode.parentNode.children[1];
+    if (modalBody.className === 'modal-body') {
+      html2canvas(modalBody).then(function(canvas) {
+        const saveAs = function(uri, filename) {
+          let link = document.createElement('a');
+          if (typeof link.download === 'string') {
+            document.body.appendChild(link);
+            link.download = filename;
+            link.href = uri;
+            link.click();
+            document.body.removeChild(link);
+          } else {
+            window.location.replace(uri);
+          }
+        };
+
+        const img = canvas.toDataURL('image/png');
+        const uri = img.replace(
+          /^data:image\/[^;]/,
+          'data:application/octet-stream'
+        );
+
+        saveAs(uri, '시간표.png');
+      });
+    } else {
+      alert('error');
+      return;
+    }
   }
 
   render() {
@@ -218,6 +250,9 @@ export default class ResultListWrapper extends Component {
             />
           </ModalBody>
           <ModalFooter>
+            <Button color="info" onClick={this.saveTable}>
+              시간표 내려받기
+            </Button>
             <Button color="warning" onClick={() => this.detailClickHandler([])}>
               닫기
             </Button>
