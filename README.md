@@ -206,3 +206,32 @@ professor: string
         }
     }
     ```
+
+## [주요 페이지]
+
+### 메인 페이지
+
+- 강의 선택 / 제거
+- 이름 / 학점 / 요일 / 전공 필터링
+
+<img src="./public/img/main.png">
+
+### 강의 상세 모달
+
+- 강의에 대한 상세 정보
+
+<img src="./public/img/classModal.png">
+
+### 결과 페이지
+
+- 공강없는 날 / 오전 수업 X 필터링
+
+<img src="./public/img/result.png">
+
+### 시간표 상세 모달
+
+- 시간표 상세 정보
+- 강의 선택시 `강의 상세 모달` 팝업
+- 시간표 내려받기(이미지) 기능
+
+<img src="./public/img/resultDetail.png">
