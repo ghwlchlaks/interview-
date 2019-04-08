@@ -233,6 +233,7 @@ class App extends Component {
                 <option value={-1}>학점</option>
                 <option value={3}>3</option>
                 <option value={2}>2</option>
+                <option value={1}>1</option>
               </Input>
             </Col>
           </Row>

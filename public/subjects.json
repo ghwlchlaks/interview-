@@ -98,6 +98,116 @@
       "type": 1,
       "room": 305,
       "professor": "ji"
+    },
+    {
+      "no": 10,
+      "title": "실용영어2",
+      "grades": 2,
+      "times": [[4, 5], [12, 13], [20, 21]],
+      "description": "교양 실용영어",
+      "books": "img/English.png",
+      "type": 1,
+      "room": 305,
+      "professor": "ji"
+    },
+    {
+      "no": 11,
+      "title": "디자인",
+      "grades": 2,
+      "times": [[12, 13], [20, 21], [28, 29]],
+      "description": "디자인 배웁시다",
+      "books": "img/design.png",
+      "type": 1,
+      "room": 307,
+      "professor": "an"
+    },
+    {
+      "no": 12,
+      "title": "데이터 구조",
+      "grades": 2,
+      "times": [[20, 21], [28, 29], [36, 37]],
+      "description": "데이터 구조 수업입니다.",
+      "books": "img/datastructure.png",
+      "type": 0,
+      "room": 407,
+      "professor": "ho"
+    },
+    {
+      "no": 13,
+      "title": "이것이 C#이다",
+      "grades": 2,
+      "times": [[28, 29], [36, 37], [6, 7]],
+      "description": "이것이 C#이다",
+      "books": "img/csharp.png",
+      "type": 0,
+      "room": 409,
+      "professor": "ha"
+    },
+    {
+      "no": 14,
+      "title": "이것이 우분투 리눅스다",
+      "grades": 2,
+      "times": [[36, 37], [6, 7], [14, 15]],
+      "description": "이것이 우분투 리눅스다",
+      "books": "img/linux.png",
+      "type": 0,
+      "room": 209,
+      "professor": "han"
+    },
+    {
+      "no": 15,
+      "title": "정보처리기사 필기",
+      "grades": 2,
+      "times": [[6, 7], [14, 15], [22, 23]],
+      "description": "정보처리기사 필기",
+      "books": "img/Engineer1.png",
+      "type": 0,
+      "room": 210,
+      "professor": "jun"
+    },
+    {
+      "no": 16,
+      "title": "정보처리기사 필기",
+      "grades": 2,
+      "times": [[14, 15], [22, 23], [30, 31]],
+      "description": "정보처리기사 필기",
+      "books": "img/Engineer1.png",
+      "type": 0,
+      "room": 210,
+      "professor": "jun"
+    },
+    {
+      "no": 17,
+      "title": "정보처리기사 필기",
+      "grades": 2,
+      "times": [[22, 23], [30, 31], [38, 39]],
+      "description": "정보처리기사 필기",
+      "books": "img/Engineer1.png",
+      "type": 0,
+      "room": 210,
+      "professor": "jun"
+    },
+    {
+      "no": 18,
+      "title": "정보처리기사 필기",
+      "grades": 2,
+      "times": [[22, 23], [30, 31], [38, 39]],
+      "description": "정보처리기사 필기",
+      "books": "img/Engineer1.png",
+      "type": 0,
+      "room": 210,
+      "professor": "jun"
+    },
+    {
+      "no": 19,
+      "title": "정보처리기사 필기",
+      "grades": 1,
+      "times": [[22, 23], [30, 31], [38, 39]],
+      "description": "정보처리기사 필기",
+      "books": "img/Engineer1.png",
+      "type": 0,
+      "room": 210,
+      "professor": "jun"
     }
   ]
 }

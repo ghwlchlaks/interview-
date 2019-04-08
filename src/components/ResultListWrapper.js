@@ -12,15 +12,16 @@ import {
   Container,
   Pagination,
   PaginationItem,
-  PaginationLink
+  PaginationLink,
+  Tooltip
 } from 'reactstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import DetailModal from './DetailModal';
 import html2canvas from 'html2canvas';
 
-library.add(faSearch);
+library.add(faSearch, faQuestionCircle);
 
 export default class ResultListWrapper extends Component {
   constructor(props) {
@@ -30,12 +31,14 @@ export default class ResultListWrapper extends Component {
       modal: false,
       modalSchedule: [],
       classModal: false,
-      classSchedule: {}
+      classSchedule: {},
+      tooltipOpen: false
     };
 
     this.detailClickHandler = this.detailClickHandler.bind(this);
     this.classClickHandler = this.classClickHandler.bind(this);
     this.cancelModalHandler = this.cancelModalHandler.bind(this);
+    this.toolTipToggle = this.toolTipToggle.bind(this);
   }
 
   makeTr(schedules, isModal) {
@@ -116,6 +119,12 @@ export default class ResultListWrapper extends Component {
   cancelModalHandler() {
     this.setState({
       classModal: false
+    });
+  }
+
+  toolTipToggle() {
+    this.setState({
+      tooltipOpen: !this.state.tooltipOpen
     });
   }
 
@@ -205,7 +214,9 @@ export default class ResultListWrapper extends Component {
                 }
               />
             </PaginationItem>
-            <PaginationItem disabled={this.props.page >= schedules.length / 4}>
+            <PaginationItem
+              disabled={this.props.page >= parseInt(schedules.length / 4)}
+            >
               <PaginationLink
                 next
                 onClick={() =>
@@ -217,7 +228,9 @@ export default class ResultListWrapper extends Component {
               <PaginationLink
                 last
                 onClick={() =>
-                  this.props.paginationClickHandler(schedules.length / 4)
+                  this.props.paginationClickHandler(
+                    parseInt(schedules.length / 4)
+                  )
                 }
               />
             </PaginationItem>
@@ -228,7 +241,20 @@ export default class ResultListWrapper extends Component {
           className={this.props.className}
           backdrop={true}
         >
-          <ModalHeader>시간표</ModalHeader>
+          <ModalHeader>
+            <span>시간표</span>
+            <span>
+              <FontAwesomeIcon id="Tooltip-modal-help" icon="question-circle" />
+              <Tooltip
+                placement="right"
+                isOpen={this.state.tooltipOpen}
+                target="Tooltip-modal-help"
+                toggle={this.toolTipToggle}
+              >
+                강의를 클릭하시면 과목 상세 내용을 확인 할 수 있습니다.
+              </Tooltip>
+            </span>
+          </ModalHeader>
           <ModalBody>
             <Table>
               <thead>

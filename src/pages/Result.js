@@ -203,7 +203,8 @@ export default class Result extends Component {
                           xs={{ offset: 10 }}
                           className="page_state"
                         >
-                          {this.state.page} / {this.state.schedules.length / 4}
+                          {this.state.page} /{' '}
+                          {parseInt(this.state.schedules.length / 4)}
                         </Col>
                       </Row>
                       <Row>
