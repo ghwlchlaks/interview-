@@ -27,11 +27,9 @@ class App extends Component {
 
     this.SaveOrCancleClickHandler = this.SaveOrCancleClickHandler.bind(this);
     this.makeScheduleClickHandler = this.makeScheduleClickHandler.bind(this);
-    this.searchChangeHandler = this.searchChangeHandler.bind(this);
-    this.typeChangeHandler = this.typeChangeHandler.bind(this);
-    this.dayChangeHandler = this.dayChangeHandler.bind(this);
-    this.gradeChangeHandler = this.gradeChangeHandler.bind(this);
     this.toolTipToggle = this.toolTipToggle.bind(this);
+    this.filterChangeHandler = this.filterChangeHandler.bind(this);
+    this.dropboxChangeHandler = this.dropboxChangeHandler.bind(this);
   }
 
   componentDidMount() {
@@ -119,22 +117,10 @@ class App extends Component {
     });
   }
 
-  searchChangeHandler(e) {
-    const title = e.target.value;
+  filterChangeHandler(e) {
     this.setState(
       {
-        title: title
-      },
-      () => {
-        this.filterfingHandler();
-      }
-    );
-  }
-
-  typeChangeHandler(e) {
-    this.setState(
-      {
-        type: +e.target.value
+        [e.target.name]: e.target.value
       },
       () => {
         this.filterfingHandler();
@@ -184,21 +170,10 @@ class App extends Component {
     });
   }
 
-  dayChangeHandler(e) {
+  dropboxChangeHandler(e) {
     this.setState(
       {
-        day: +e.target.value
-      },
-      () => {
-        this.filterfingHandler();
-      }
-    );
-  }
-
-  gradeChangeHandler(e) {
-    this.setState(
-      {
-        grade: +e.target.value
+        [e.target.name]: +e.target.value
       },
       () => {
         this.filterfingHandler();
@@ -218,7 +193,7 @@ class App extends Component {
                 name="title"
                 id="title"
                 placeholder="과목 이름을 검색하세요"
-                onChange={this.searchChangeHandler}
+                onChange={this.filterChangeHandler}
               />
             </Col>
             <Col md="2">
@@ -226,7 +201,7 @@ class App extends Component {
                 type="select"
                 name="type"
                 id="type"
-                onChange={this.typeChangeHandler}
+                onChange={this.dropboxChangeHandler}
               >
                 <option value={-1}>타입</option>
                 <option value={0}>전공</option>
@@ -238,7 +213,7 @@ class App extends Component {
                 type="select"
                 name="day"
                 id="day"
-                onChange={this.dayChangeHandler}
+                onChange={this.dropboxChangeHandler}
               >
                 <option value={-1}>요일</option>
                 <option value={0}>월</option>
@@ -251,9 +226,9 @@ class App extends Component {
             <Col md="2">
               <Input
                 type="select"
-                name="grades"
-                id="grades"
-                onChange={this.gradeChangeHandler}
+                name="grade"
+                id="grade"
+                onChange={this.dropboxChangeHandler}
               >
                 <option value={-1}>학점</option>
                 <option value={3}>3</option>
@@ -284,7 +259,7 @@ class App extends Component {
                   target="Tooltip-help"
                   toggle={this.toolTipToggle}
                 >
-                  최소 18학점, 최대 21학점을 선택하셔야합니다.
+                  최소 18학점, 최대 21학점을 선택해야합니다.
                 </Tooltip>
               </span>
 

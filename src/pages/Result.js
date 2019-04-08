@@ -11,10 +11,12 @@ export default class Result extends Component {
     this.state = {
       originSchedules: [],
       schedules: [],
-      loading: true
+      loading: true,
+      page: 1
     };
 
     this.typeChangeHandler = this.typeChangeHandler.bind(this);
+    this.paginationClickHandler = this.paginationClickHandler.bind(this);
   }
 
   componentDidMount() {
@@ -96,7 +98,6 @@ export default class Result extends Component {
 
       let isDuplicated = false;
 
-      // 중복 검사
       for (let j = 0; j < b.length; j++) {
         for (let q = j + 1; q < b.length; q++) {
           if (b[j] === b[q]) {
@@ -150,7 +151,14 @@ export default class Result extends Component {
     }
 
     this.setState({
-      schedules: schedules
+      schedules: schedules,
+      page: 1
+    });
+  }
+
+  paginationClickHandler(index) {
+    this.setState({
+      page: index
     });
   }
 
@@ -160,12 +168,14 @@ export default class Result extends Component {
         {!this.props.location.state ? (
           <Redirect to="/" />
         ) : (
-          <div className="filter">
-            <Row className="filter_area">
-              <Col md="10">
-                <h4 className="result_title">원하시는 시간표를 선택해주세요</h4>
-              </Col>
-              <Col md="2">
+          <div>
+            <div className="filter">
+              <Row className="filter_area">
+                <Col md="12">
+                  <h4 className="result_title">시간표를 선택해주세요</h4>
+                </Col>
+              </Row>
+              <Row>
                 <Input
                   type="select"
                   name="type"
@@ -176,23 +186,38 @@ export default class Result extends Component {
                   <option value={0}>공강 있는 날</option>
                   <option value={1}>오전 수업 X</option>
                 </Input>
-              </Col>
-            </Row>
-            {this.state.loading ? (
-              <Spinner color="primary" />
-            ) : (
-              <div>
-                {!this.state.schedules.length > 0 ? (
-                  <div> 결과가 없습니다.</div>
-                ) : (
-                  <div>
-                    <Row>
-                      <ResultListWrapper schedules={this.state.schedules} />
-                    </Row>
-                  </div>
-                )}
-              </div>
-            )}
+              </Row>
+            </div>
+            <div>
+              {this.state.loading ? (
+                <Spinner color="primary" />
+              ) : (
+                <div>
+                  {!this.state.schedules.length > 0 ? (
+                    <div> 결과가 없습니다.</div>
+                  ) : (
+                    <div>
+                      <Row className="page_state_box">
+                        <Col
+                          md={{ offset: 11 }}
+                          xs={{ offset: 10 }}
+                          className="page_state"
+                        >
+                          {this.state.page} / {this.state.schedules.length / 4}
+                        </Col>
+                      </Row>
+                      <Row>
+                        <ResultListWrapper
+                          schedules={this.state.schedules}
+                          page={this.state.page}
+                          paginationClickHandler={this.paginationClickHandler}
+                        />
+                      </Row>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </Container>

@@ -55,16 +55,17 @@ export default class List extends Component {
 
   render() {
     const { no, title, grades, times, type, professor } = this.props.value;
+    const data = this.props.state ? '상세 / 등록' : '상세 / 제거';
 
     return (
       <tr>
-        <td>{no}</td>
-        <td>{title}</td>
-        <td>{grades}</td>
-        <td>{this.makeType(type)}</td>
-        <td>{professor}</td>
-        <td>{this.makeTimes(times)}</td>
-        <td>
+        <td data-label="코드">{no}</td>
+        <td data-label="과목 이름">{title}</td>
+        <td data-label="학점">{grades}</td>
+        <td data-label="타입">{this.makeType(type)}</td>
+        <td data-label="교수">{professor}</td>
+        <td data-label="시간">{this.makeTimes(times)}</td>
+        <td data-label={data}>
           <button type="button" onClick={this.detailClickHandler}>
             <FontAwesomeIcon icon="search" />
           </button>

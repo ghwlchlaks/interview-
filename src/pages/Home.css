@@ -9,6 +9,11 @@
   visibility: hidden;
   background: #fafafa;
 }
+@media screen and (max-width: 600px) {
+  .responsive-table thead {
+    display: none;
+  }
+}
 @media screen and (min-width: 600px) {
   .responsive-table thead {
     visibility: visible;
@@ -93,6 +98,13 @@
 .table2_wrapper {
   height: 650px;
   overflow: auto;
+}
+
+@media screen and (max-width: 600px) {
+  .table2_wrapper {
+    height: 100%;
+    overflow: hidden;
+  }
 }
 
 .submitBtn {

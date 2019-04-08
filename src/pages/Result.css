@@ -7,7 +7,6 @@
 }
 
 .icon {
-  /* color: white; */
   font-size: 100px;
   position: absolute;
   top: 50%;
@@ -45,4 +44,25 @@
 
 .result_title {
   cursor: default;
+  text-align: center;
+}
+
+.list_box {
+  border: 1px solid #b1b4bd;
+  border-top: none;
+  padding-top: 20px;
+}
+
+.page_state_box {
+  border: 1px solid #b1b4bd;
+  border-bottom: none;
+}
+
+.pagination {
+  justify-content: center;
+}
+
+.page_state {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.2rem;
 }

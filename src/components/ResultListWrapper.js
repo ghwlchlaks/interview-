@@ -9,6 +9,8 @@ import {
   ModalBody,
   ModalFooter,
   Button,
+  Container,
+  Pagination,
   PaginationItem,
   PaginationLink
 } from 'reactstrap';
@@ -72,12 +74,9 @@ export default class ResultListWrapper extends Component {
               _class = 7;
             }
 
-            // console.log('day', day, 'class', _class, 'i', i, 'j', j);
             if (day === j && _class === i) {
-              // console.log('day', day, 'class', _class);
               isExist = true;
               schedule = value;
-              // enable_times.shift();
             }
           }
         }
@@ -119,58 +118,12 @@ export default class ResultListWrapper extends Component {
     });
   }
 
-  // makeSchedules(start, end) {
-  //   for (let i = start; i < end; i++) {
-  //     return (
-  //       <Col md="3" key={i}>
-  //         <Table className="result">
-  //           <thead>
-  //             <tr>
-  //               <th>#</th>
-  //               <th>월</th>
-  //               <th>화</th>
-  //               <th>수</th>
-  //               <th>목</th>
-  //               <th>금</th>
-  //             </tr>
-  //           </thead>
-  //           <tbody id={i}>{this.makeTr(this.props.schedules[i], false)}</tbody>
-  //         </Table>
-  //         <div className="overlay">
-  //           <div
-  //             // href=""
-  //             onClick={() => this.detailClickHandler(this.props.schedules[i])}
-  //             className="icon"
-  //           >
-  //             <FontAwesomeIcon icon="search" />
-  //           </div>
-  //         </div>
-  //       </Col>
-  //     );
-  //   }
-  // }
-
-  render() {
-    const schedules = this.props.schedules;
-    const makePagination = schedules.map((value, index) => {
-      if ((index + 1) % 4 === 0) {
-        return (
-          <div key={index}>
-            <PaginationItem>
-              <PaginationLink
-                onClick={() => this.makeSchedules(index - 3, index + 1)}
-              >
-                {(index + 1) / 4}
-              </PaginationLink>
-            </PaginationItem>
-          </div>
-        );
-      }
-    });
-
-    const makeSchedules = schedules.map((value, index) => {
-      return (
-        <Col md="3" key={index}>
+  makeSchedules() {
+    let data = [];
+    const page = this.props.page;
+    for (let i = (page - 1) * 4; i < page * 4; i++) {
+      data.push(
+        <Col md="3" key={i}>
           <Table className="result">
             <thead>
               <tr>
@@ -182,12 +135,11 @@ export default class ResultListWrapper extends Component {
                 <th>금</th>
               </tr>
             </thead>
-            <tbody id={index}>{this.makeTr(value, false)}</tbody>
+            <tbody id={i}>{this.makeTr(this.props.schedules[i], false)}</tbody>
           </Table>
           <div className="overlay">
             <div
-              // href=""
-              onClick={() => this.detailClickHandler(value)}
+              onClick={() => this.detailClickHandler(this.props.schedules[i])}
               className="icon"
             >
               <FontAwesomeIcon icon="search" />
@@ -195,11 +147,50 @@ export default class ResultListWrapper extends Component {
           </div>
         </Col>
       );
-    });
-    return (
-      <Row>
-        {makeSchedules}
+    }
+    return data;
+  }
 
+  render() {
+    const schedules = this.props.schedules;
+
+    return (
+      <Container className="list_box">
+        <Row>{this.makeSchedules()}</Row>
+        <div className="pagination-wrapper">
+          <Pagination aria-label="Page navigation example ">
+            <PaginationItem>
+              <PaginationLink
+                first
+                onClick={() => this.props.paginationClickHandler(1)}
+              />
+            </PaginationItem>
+            <PaginationItem disabled={this.props.page <= 1}>
+              <PaginationLink
+                previous
+                onClick={() =>
+                  this.props.paginationClickHandler(this.props.page - 1)
+                }
+              />
+            </PaginationItem>
+            <PaginationItem disabled={this.props.page >= schedules.length / 4}>
+              <PaginationLink
+                next
+                onClick={() =>
+                  this.props.paginationClickHandler(this.props.page + 1)
+                }
+              />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink
+                last
+                onClick={() =>
+                  this.props.paginationClickHandler(schedules.length / 4)
+                }
+              />
+            </PaginationItem>
+          </Pagination>
+        </div>
         <Modal
           isOpen={this.state.modal}
           className={this.props.className}
@@ -232,7 +223,7 @@ export default class ResultListWrapper extends Component {
             </Button>
           </ModalFooter>
         </Modal>
-      </Row>
+      </Container>
     );
   }
 }
