@@ -7,7 +7,10 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  Button,
+  PaginationItem,
+  PaginationLink
 } from 'reactstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -116,13 +119,59 @@ export default class ResultListWrapper extends Component {
     });
   }
 
+  // makeSchedules(start, end) {
+  //   for (let i = start; i < end; i++) {
+  //     return (
+  //       <Col md="3" key={i}>
+  //         <Table className="result">
+  //           <thead>
+  //             <tr>
+  //               <th>#</th>
+  //               <th>월</th>
+  //               <th>화</th>
+  //               <th>수</th>
+  //               <th>목</th>
+  //               <th>금</th>
+  //             </tr>
+  //           </thead>
+  //           <tbody id={i}>{this.makeTr(this.props.schedules[i], false)}</tbody>
+  //         </Table>
+  //         <div className="overlay">
+  //           <div
+  //             // href=""
+  //             onClick={() => this.detailClickHandler(this.props.schedules[i])}
+  //             className="icon"
+  //           >
+  //             <FontAwesomeIcon icon="search" />
+  //           </div>
+  //         </div>
+  //       </Col>
+  //     );
+  //   }
+  // }
+
   render() {
     const schedules = this.props.schedules;
+    const makePagination = schedules.map((value, index) => {
+      if ((index + 1) % 4 === 0) {
+        return (
+          <div key={index}>
+            <PaginationItem>
+              <PaginationLink
+                onClick={() => this.makeSchedules(index - 3, index + 1)}
+              >
+                {(index + 1) / 4}
+              </PaginationLink>
+            </PaginationItem>
+          </div>
+        );
+      }
+    });
 
     const makeSchedules = schedules.map((value, index) => {
       return (
         <Col md="3" key={index}>
-          <Table>
+          <Table className="result">
             <thead>
               <tr>
                 <th>#</th>
@@ -150,6 +199,7 @@ export default class ResultListWrapper extends Component {
     return (
       <Row>
         {makeSchedules}
+
         <Modal
           isOpen={this.state.modal}
           className={this.props.className}
@@ -177,9 +227,9 @@ export default class ResultListWrapper extends Component {
             />
           </ModalBody>
           <ModalFooter>
-            <button type="button" onClick={() => this.detailClickHandler([])}>
+            <Button color="warning" onClick={() => this.detailClickHandler([])}>
               닫기
-            </button>
+            </Button>
           </ModalFooter>
         </Modal>
       </Row>

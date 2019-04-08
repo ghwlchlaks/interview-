@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import ListWrapper from '../components/ListWrapper';
 import './Home.css';
-import { Row, Col, Container, Input } from 'reactstrap';
+import { Row, Col, Container, Input, Button, Tooltip } from 'reactstrap';
 import axios from 'axios';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faQuestionCircle);
 
 class App extends Component {
   constructor(props) {
@@ -14,7 +19,10 @@ class App extends Component {
       items: [],
       type: -1,
       day: -1,
-      grade: -1
+      grade: -1,
+      totalGrade: 0,
+      tooltipOpen: false,
+      isDisabledSubmitBtn: true
     };
 
     this.SaveOrCancleClickHandler = this.SaveOrCancleClickHandler.bind(this);
@@ -23,6 +31,7 @@ class App extends Component {
     this.typeChangeHandler = this.typeChangeHandler.bind(this);
     this.dayChangeHandler = this.dayChangeHandler.bind(this);
     this.gradeChangeHandler = this.gradeChangeHandler.bind(this);
+    this.toolTipToggle = this.toolTipToggle.bind(this);
   }
 
   componentDidMount() {
@@ -36,10 +45,28 @@ class App extends Component {
     });
   }
 
+  toolTipToggle() {
+    this.setState({
+      tooltipOpen: !this.state.tooltipOpen
+    });
+  }
+
   SaveOrCancleClickHandler(value, index, state) {
     const totalGrade = this.getTotalGrade();
 
-    if (totalGrade + value.grades > 21) {
+    if (totalGrade + value.grades >= 18 && state) {
+      this.setState({
+        isDisabledSubmitBtn: false
+      });
+    }
+
+    if (totalGrade - value.grades < 18 && !state) {
+      this.setState({
+        isDisabledSubmitBtn: true
+      });
+    }
+
+    if (totalGrade + value.grades > 21 && state) {
       alert('21학점을 초과하였습니다. 최대 21학점까지 선택 가능합니다.');
       return;
     }
@@ -55,14 +82,16 @@ class App extends Component {
       this.setState({
         subjects: this.state.subjects,
         selectedSubjects: [...this.state.selectedSubjects, value],
-        items: this.state.items
+        items: this.state.items,
+        totalGrade: totalGrade + value.grades
       });
     } else {
       this.state.selectedSubjects.splice(index, 1);
       this.setState({
         selectedSubjects: this.state.selectedSubjects,
         subjects: [...this.state.subjects, value],
-        items: [...this.state.items, value]
+        items: [...this.state.items, value],
+        totalGrade: totalGrade - value.grades
       });
     }
   }
@@ -181,77 +210,106 @@ class App extends Component {
     const { selectedSubjects, items } = this.state;
     return (
       <Container>
-        <Row>
-          <Col md="6">
-            <Input
-              type="text"
-              name="title"
-              id="title"
-              placeholder="과목 이름을 적어주세요"
-              onChange={this.searchChangeHandler}
-            />
-          </Col>
-          <Col md="2">
-            <Input
-              type="select"
-              name="type"
-              id="type"
-              onChange={this.typeChangeHandler}
-            >
-              <option value={-1}>전체</option>
-              <option value={0}>전공</option>
-              <option value={1}>교양</option>
-            </Input>
-          </Col>
-          <Col md="2">
-            <Input
-              type="select"
-              name="day"
-              id="day"
-              onChange={this.dayChangeHandler}
-            >
-              <option value={-1}>전체</option>
-              <option value={0}>월</option>
-              <option value={1}>화</option>
-              <option value={2}>수</option>
-              <option value={3}>목</option>
-              <option value={4}>금</option>
-            </Input>
-          </Col>
-          <Col md="2">
-            <Input
-              type="select"
-              name="grades"
-              id="grades"
-              onChange={this.gradeChangeHandler}
-            >
-              <option value={-1}>전체</option>
-              <option value={3}>3</option>
-              <option value={2}>2</option>
-            </Input>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12" md="6">
-            <ListWrapper
-              subjects={items}
-              SaveOrCancleClickHandler={this.SaveOrCancleClickHandler}
-              state={true}
-            />
-          </Col>
-          <Col xs="12" md="6">
-            <ListWrapper
-              subjects={selectedSubjects}
-              SaveOrCancleClickHandler={this.SaveOrCancleClickHandler}
-              state={false}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <button type="button" onClick={this.makeScheduleClickHandler}>
-            시간표 만들기
-          </button>
-        </Row>
+        <div className="filter">
+          <Row className="filter_area">
+            <Col md="6">
+              <Input
+                type="text"
+                name="title"
+                id="title"
+                placeholder="과목 이름을 검색하세요"
+                onChange={this.searchChangeHandler}
+              />
+            </Col>
+            <Col md="2">
+              <Input
+                type="select"
+                name="type"
+                id="type"
+                onChange={this.typeChangeHandler}
+              >
+                <option value={-1}>타입</option>
+                <option value={0}>전공</option>
+                <option value={1}>교양</option>
+              </Input>
+            </Col>
+            <Col md="2">
+              <Input
+                type="select"
+                name="day"
+                id="day"
+                onChange={this.dayChangeHandler}
+              >
+                <option value={-1}>요일</option>
+                <option value={0}>월</option>
+                <option value={1}>화</option>
+                <option value={2}>수</option>
+                <option value={3}>목</option>
+                <option value={4}>금</option>
+              </Input>
+            </Col>
+            <Col md="2">
+              <Input
+                type="select"
+                name="grades"
+                id="grades"
+                onChange={this.gradeChangeHandler}
+              >
+                <option value={-1}>학점</option>
+                <option value={3}>3</option>
+                <option value={2}>2</option>
+              </Input>
+            </Col>
+          </Row>
+        </div>
+        <div className="table_list">
+          <Row className="table_area">
+            <Col xs="12" md="6">
+              <span>선택가능한 과목</span>
+              <div className="table1_wrapper">
+                <ListWrapper
+                  subjects={items}
+                  SaveOrCancleClickHandler={this.SaveOrCancleClickHandler}
+                  state={true}
+                />
+              </div>
+            </Col>
+            <Col xs="12" md="6">
+              <span>선택한 과목</span>
+              <span>
+                <FontAwesomeIcon id="Tooltip-help" icon="question-circle" />
+                <Tooltip
+                  placement="right"
+                  isOpen={this.state.tooltipOpen}
+                  target="Tooltip-help"
+                  toggle={this.toolTipToggle}
+                >
+                  최소 18학점, 최대 21학점을 선택하셔야합니다.
+                </Tooltip>
+              </span>
+
+              <div className="table2_wrapper">
+                <ListWrapper
+                  subjects={selectedSubjects}
+                  SaveOrCancleClickHandler={this.SaveOrCancleClickHandler}
+                  state={false}
+                />
+              </div>
+              <p style={{ float: 'right' }}>
+                선택한 학점 : {this.state.totalGrade}
+              </p>
+              <Button
+                color="primary"
+                className="submitBtn"
+                disabled={this.state.isDisabledSubmitBtn}
+                onClick={this.makeScheduleClickHandler}
+              >
+                시간표 만들기
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <Row />
       </Container>
     );
   }

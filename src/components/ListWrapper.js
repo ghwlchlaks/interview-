@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import List from './List';
-import { Row, Col } from 'reactstrap';
+import { Table } from 'reactstrap';
 
 export default class ListWrapper extends Component {
   render() {
@@ -21,28 +21,22 @@ export default class ListWrapper extends Component {
       });
     }
     return (
-      <div className="text-center">
-        <Row className="border">
-          <Col md="2" xs="12" className="border">
-            코드
-          </Col>
-          <Col md="3" xs="12" className="border">
-            과목 이름
-          </Col>
-          <Col md="2" xs="12" className="border">
-            학점
-          </Col>
+      <Table className="text-center responsive-table">
+        <thead>
+          <tr>
+            <th>코드</th>
+            <th>과목 이름</th>
+            <th>학점</th>
 
-          <Col md="2" xs="12" className="border">
-            타입
-          </Col>
-          <Col md="3" xs="12" className="border">
-            상세 / {this.props.state ? '등록' : '제거'}
-          </Col>
-        </Row>
+            <th>타입</th>
+            <th>교수</th>
+            <th>시간</th>
+            <th>상세 / {this.props.state ? '등록' : '제거'}</th>
+          </tr>
+        </thead>
 
-        {makeList}
-      </div>
+        <tbody>{makeList}</tbody>
+      </Table>
     );
   }
 }

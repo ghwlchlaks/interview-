@@ -1,5 +1,9 @@
-table:hover {
+.result:hover {
   background-color: rgba(125, 125, 125, 1);
+}
+
+.result {
+  border: 1px solid #b1b4bd;
 }
 
 .icon {
@@ -24,4 +28,21 @@ table:hover {
   -ms-transform: translate(-50%, -50%);
   text-align: center;
   opacity: 1;
+  cursor: pointer;
+}
+
+.classTitle {
+  display: inline-block;
+  width: 60px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modal_schedule {
+  cursor: pointer;
+}
+
+.result_title {
+  cursor: default;
 }

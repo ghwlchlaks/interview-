@@ -24,10 +24,12 @@ export default class ResultList extends Component {
     if (isModal) {
       return (
         <td
+          className="modal_schedule"
           onClick={() => this.props.classClickHandler(schedule)}
           style={styles.td}
         >
-          {schedule.title}
+          <div className="classTitle">{schedule.title}</div>
+          <div>{schedule.room}</div>
         </td>
       );
     } else {

@@ -6,7 +6,6 @@ import {
   faCheck,
   faTimesCircle
 } from '@fortawesome/free-solid-svg-icons';
-import { Row, Col } from 'reactstrap';
 import DetailModal from './DetailModal';
 
 library.add(faSearch, faCheck, faTimesCircle);
@@ -30,7 +29,7 @@ export default class List extends Component {
       const time = value[0] % 8;
       return (
         <span key={index}>
-          {day} {time} - {time + 1} 교시, &nbsp;
+          {day} {time} - {time + 1} 교시 <br />
         </span>
       );
     });
@@ -55,55 +54,44 @@ export default class List extends Component {
   }
 
   render() {
-    const { no, title, grades, times, type } = this.props.value;
+    const { no, title, grades, times, type, professor } = this.props.value;
 
     return (
-      <div>
-        <Row>
-          <Col md="2" xs="12" className="border">
-            {no}
-          </Col>
-          <Col md="3" xs="12" className="border">
-            {title}
-          </Col>
-          <Col md="2" xs="12" className="border">
-            {grades}
-          </Col>
-          <Col md="2" xs="12" className="border">
-            {this.makeType(type)}
-          </Col>
-          <Col md="3" xs="12" className="border">
-            <button type="button" onClick={this.detailClickHandler}>
-              <FontAwesomeIcon icon="search" />
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                this.props.SaveOrCancleClickHandler(
-                  this.props.value,
-                  this.props.index,
-                  this.props.state
-                )
-              }
-            >
-              {this.props.state ? (
-                <FontAwesomeIcon icon="check" />
-              ) : (
-                <FontAwesomeIcon icon="times-circle" />
-              )}
-            </button>
-          </Col>
-        </Row>
-        <Row className="border">
-          <Col md="2">시간</Col>
-          <Col>{this.makeTimes(times)}</Col>
-        </Row>
+      <tr>
+        <td>{no}</td>
+        <td>{title}</td>
+        <td>{grades}</td>
+        <td>{this.makeType(type)}</td>
+        <td>{professor}</td>
+        <td>{this.makeTimes(times)}</td>
+        <td>
+          <button type="button" onClick={this.detailClickHandler}>
+            <FontAwesomeIcon icon="search" />
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              this.props.SaveOrCancleClickHandler(
+                this.props.value,
+                this.props.index,
+                this.props.state
+              )
+            }
+          >
+            {this.props.state ? (
+              <FontAwesomeIcon icon="check" />
+            ) : (
+              <FontAwesomeIcon icon="times-circle" />
+            )}
+          </button>
+        </td>
+
         <DetailModal
           classModal={this.state.classModal}
           classSchedule={this.state.classSchedule}
           cancelModalHandler={this.cancelModalHandler}
         />
-      </div>
+      </tr>
     );
   }
 }

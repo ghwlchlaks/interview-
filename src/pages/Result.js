@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Result.css';
 import { Redirect } from 'react-router-dom';
 import ResultListWrapper from '../components/ResultListWrapper';
-import { Container, Row, Col, Input } from 'reactstrap';
+import { Container, Row, Col, Input, Spinner } from 'reactstrap';
 
 export default class Result extends Component {
   constructor(props) {
@@ -160,29 +160,32 @@ export default class Result extends Component {
         {!this.props.location.state ? (
           <Redirect to="/" />
         ) : (
-          <div>
+          <div className="filter">
+            <Row className="filter_area">
+              <Col md="10">
+                <h4 className="result_title">원하시는 시간표를 선택해주세요</h4>
+              </Col>
+              <Col md="2">
+                <Input
+                  type="select"
+                  name="type"
+                  id="type"
+                  onChange={this.typeChangeHandler}
+                >
+                  <option value={-1}>전체</option>
+                  <option value={0}>공강 있는 날</option>
+                  <option value={1}>오전 수업 X</option>
+                </Input>
+              </Col>
+            </Row>
             {this.state.loading ? (
-              'Loading ...'
+              <Spinner color="primary" />
             ) : (
               <div>
                 {!this.state.schedules.length > 0 ? (
                   <div> 결과가 없습니다.</div>
                 ) : (
                   <div>
-                    <Row>
-                      <Col md="2">
-                        <Input
-                          type="select"
-                          name="type"
-                          id="type"
-                          onChange={this.typeChangeHandler}
-                        >
-                          <option value={-1}>전체</option>
-                          <option value={0}>공강 있는 날</option>
-                          <option value={1}>오전 수업 X</option>
-                        </Input>
-                      </Col>
-                    </Row>
                     <Row>
                       <ResultListWrapper schedules={this.state.schedules} />
                     </Row>
