@@ -235,3 +235,5 @@ professor: string
 - 시간표 내려받기(이미지) 기능
 
 <img src="./public/img/resultDetail.png">
+
+**(최종합격)**
